@@ -1,0 +1,10 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.env
+
+# Project data and databases
+data/
+*.db
+*.sqlite

@@ -9,6 +9,19 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
 
 
+# Columns we keep from the 283 in the raw file (see the 2025 BRFSS codebook)
+HEART_COLUMNS = [
+    # Outcome
+    "_MICHD", "CVDINFR4", "CVDCRHD4", "CVDSTRK3",
+    # Demographics
+    "_STATE", "_SEX", "_AGEG5YR", "_EDUCAG", "_INCOMG1",
+    # Risk factors
+    "_RFHYPE6", "_RFCHOL3", "DIABETE4", "_BMI5", "_SMOKER3", "_TOTINDA", "_RFDRHV9", "GENHLTH",
+    # Survey weight
+    "_LLCPWT"
+]
+
+
 def find_raw_file():
     """Return the path to the BRFSS .XPT file in the data folder."""
     matches = list(DATA_DIR.glob("*.XPT"))
@@ -17,7 +30,7 @@ def find_raw_file():
     return matches[0]
 
 
-def extract(columns=None, chunksize=50_000):
+def extract(columns=HEART_COLUMNS, chunksize=50_000):
     """Read the BRFSS file in chunks, keeping only the columns we need.
     
     columns: list column names to keep. None keeps all of them.
@@ -37,9 +50,6 @@ def extract(columns=None, chunksize=50_000):
 
 if __name__ == "__main__":
     # Quick look: read just the first chunk so we can see what's inside
-    path = find_raw_file()
-    reader = pd.read_sas(path, format="xport", encoding="latin-1", chunksize=5)
-    preview = next(reader)
-    print(f"File: {path.name}")
-    print(f"Number of columns: {preview.shape[1]}")
-    print(preview.iloc[:, :10])
+    df = extract()
+    print(f"Rows: {len(df):,} Columns: {df.shape[1]}")
+    print(df.head())

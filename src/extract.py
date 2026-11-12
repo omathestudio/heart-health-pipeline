@@ -1,4 +1,4 @@
-""""Extract step: read the raw CDC BRFSS file into a pandas DataFrame."""
+"""Extract step: read the raw CDC BRFSS file into a pandas DataFrame."""
 
 from pathlib import Path
 
@@ -33,8 +33,8 @@ def find_raw_file():
 def extract(columns=HEART_COLUMNS, chunksize=50_000):
     """Read the BRFSS file in chunks, keeping only the columns we need.
     
-    columns: list column names to keep. None keeps all of them.
-    chunksize: number of reows read at a time, so the laptop doesn't run out of memory.
+    columns: list of column names to keep. None keeps all of them.
+    chunksize: number of rows read at a time, so the laptop doesn't run out of memory.
     """
     path = find_raw_file()
     reader = pd.read_sas(path, format="xport", encoding="latin-1", chunksize=chunksize)
@@ -49,7 +49,7 @@ def extract(columns=HEART_COLUMNS, chunksize=50_000):
 
 
 if __name__ == "__main__":
-    # Quick look: read just the first chunk so we can see what's inside
+    # Test run: read the full file and show the first few rows
     df = extract()
     print(f"Rows: {len(df):,} Columns: {df.shape[1]}")
     print(df.head())

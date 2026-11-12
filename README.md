@@ -126,6 +126,7 @@ heart-health-pipeline/
 - **CDC's calculated variables** (those starting with `_`, like `_MICHD`) where available, because CDC has already combined and checked the underlying questions.
 - **Diabetes coded as yes only for a diagnosis of diabetes.** "Only during pregnancy" and "pre-diabetes" count as no.
 - **SQL kept in its own file**, separate from the Python, with each query labelled by name.
+- **Validated against the official codebook.** Every value code was checked against the 2025 BRFSS codebook, and the number of blanks for each column matches the codebook's "don't know / refused / missing" counts exactly.
 
 ### Survey weights
 
